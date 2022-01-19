@@ -1,0 +1,29 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #222222;
+  overflow: hidden;
+}
+
+circle,
+rect,
+line {
+  stroke-width: 10px;
+  stroke-linecap: round;
+  fill: transparent;
+}
+
+#root {
+  top: 0;
+  position: absolute;
+}
+
+.action-list {
+  color: #39ff14;
+  margin: auto;
+  width: 40%;
+  border: 3px solid green;
+  padding: 0.5em;
+}
