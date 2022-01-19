@@ -91,6 +91,38 @@ export default function App() {
                 />
               </>
             );
+          } else if (displayedShape.includes("triangle")) {
+            return (
+              <>
+                <motion.line
+                  x1={config.drawings["dot" + displayedShape[8]].position.x}
+                  y1={config.drawings["dot" + displayedShape[8]].position.y}
+                  x2={config.drawings["dot" + displayedShape[9]].position.x}
+                  y2={config.drawings["dot" + displayedShape[9]].position.y}
+                  stroke="white"
+                  style={{ strokeWidth }}
+                  variants={draw}
+                />
+                <motion.line
+                  x1={config.drawings["dot" + displayedShape[9]].position.x}
+                  y1={config.drawings["dot" + displayedShape[9]].position.y}
+                  x2={config.drawings["dot" + displayedShape[10]].position.x}
+                  y2={config.drawings["dot" + displayedShape[10]].position.y}
+                  stroke="white"
+                  style={{ strokeWidth }}
+                  variants={draw}
+                />
+                <motion.line
+                  x1={config.drawings["dot" + displayedShape[10]].position.x}
+                  y1={config.drawings["dot" + displayedShape[10]].position.y}
+                  x2={config.drawings["dot" + displayedShape[8]].position.x}
+                  y2={config.drawings["dot" + displayedShape[8]].position.y}
+                  stroke="white"
+                  style={{ strokeWidth }}
+                  variants={draw}
+                />
+              </>
+            );
           }
         })}
       </motion.svg>
