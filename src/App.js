@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import TypeWriterEffect from "react-typewriter-effect";
 import { arraysEqual, distance } from "./utils";
+import config from "./EuclidElementsBook1Proposition1";
 
 const dotRadius = 4;
 const strokeWidth = 4;
@@ -47,21 +48,16 @@ const draw = {
 };
 
 export default function App() {
-  const [displayedShapes, setDisplayedShapes] = useState(["lineAB"]);
+  const [displayedShapes, setDisplayedShapes] = useState(config.initialState);
 
-  const onKeyDown = (event) => {
-    switch (event.key) {
-      case "ArrowUp":
-        console.log("ArrowUp");
-        break;
-      case "ArrowDown":
-        console.log("ArrowDown");
-        break;
-    }
-  };
+  console.log(displayedShapes);
+  console.log(
+    "config?.states[displayedShapes]",
+    config?.states[displayedShapes]
+  );
 
   return (
-    <div tabIndex="-1" onKeyDown={onKeyDown}>
+    <div>
       <motion.svg
         width={window.innerWidth}
         height={window.innerHeight / 2}
@@ -248,437 +244,26 @@ export default function App() {
         )}
       </motion.svg>
       <div class="action-list">
-        {arraysEqual(displayedShapes, ["lineAB"]) && (
-          <>
+        <>
+          {config?.states[displayedShapes]?.actions.map((action, i) => (
             <div
+              key={action.text}
               onClick={() =>
-                setDisplayedShapes([...displayedShapes, "circleA_AB"])
+                action.addedState &&
+                setDisplayedShapes(displayedShapes + "-" + action.addedState)
               }
             >
               <TypeWriterEffect
                 textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={0}
+                startDelay={i * 1000}
                 cursorColor="#39ff14"
                 hideCursorAfterText
-                text="drawCircle(A, AB)"
+                text={action.text}
                 typeSpeed={50}
               />
             </div>
-            <div
-              onClick={() =>
-                setDisplayedShapes([...displayedShapes, "circleB_AB"])
-              }
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={1000}
-                cursorColor="#39ff14"
-                text="drawCircle(B, AB)"
-                typeSpeed={50}
-              />
-            </div>
-          </>
-        )}
-        {arraysEqual(displayedShapes, ["lineAB", "circleA_AB"]) && (
-          <div
-            onClick={() =>
-              setDisplayedShapes([...displayedShapes, "circleB_AB"])
-            }
-          >
-            <TypeWriterEffect
-              textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-              startDelay={0}
-              cursorColor="#39ff14"
-              text="drawCircle(B, AB)"
-              typeSpeed={50}
-            />
-          </div>
-        )}
-        {arraysEqual(displayedShapes, ["lineAB", "circleB_AB"]) && (
-          <div
-            onClick={() =>
-              setDisplayedShapes([...displayedShapes, "circleA_AB"])
-            }
-          >
-            <TypeWriterEffect
-              textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-              startDelay={0}
-              cursorColor="#39ff14"
-              text="drawCircle(A, AB)"
-              typeSpeed={50}
-            />
-          </div>
-        )}
-        {arraysEqual(displayedShapes, [
-          "lineAB",
-          "circleA_AB",
-          "circleB_AB"
-        ]) && (
-          <>
-            <div
-              onClick={() => setDisplayedShapes([...displayedShapes, "lineAC"])}
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={0}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawLine(A, C)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() => setDisplayedShapes([...displayedShapes, "lineBC"])}
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={1000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawLine(B, C)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() => setDisplayedShapes([...displayedShapes, "lineAD"])}
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={2000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawLine(A, D)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() => setDisplayedShapes([...displayedShapes, "lineBD"])}
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={3000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawLine(B, D)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() =>
-                setDisplayedShapes([...displayedShapes, , "lineCD"])
-              }
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={4000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawLine(C, D)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() =>
-                setDisplayedShapes([...displayedShapes, "circleC_AB"])
-              }
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={5000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawCircle(C, AB)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() =>
-                setDisplayedShapes([...displayedShapes, "circleD_AB"])
-              }
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={6000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawCircle(D, AB)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() =>
-                setDisplayedShapes([...displayedShapes, "circleC_CD"])
-              }
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={7000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawCircle(C, CD)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() =>
-                setDisplayedShapes([...displayedShapes, "circleD_CD"])
-              }
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={8000}
-                cursorColor="#39ff14"
-                text="drawCircle(D, CD)"
-                typeSpeed={50}
-              />
-            </div>
-          </>
-        )}
-        {arraysEqual(displayedShapes, [
-          "lineAB",
-          "circleA_AB",
-          "circleB_AB",
-          "lineAC"
-        ]) && (
-          <>
-            <div
-              onClick={() => setDisplayedShapes([...displayedShapes, "lineBC"])}
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={0}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawLine(B, C)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() => setDisplayedShapes([...displayedShapes, "lineAD"])}
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={1000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawLine(A, D)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() => setDisplayedShapes([...displayedShapes, "lineBD"])}
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={2000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawLine(B, D)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() =>
-                setDisplayedShapes([...displayedShapes, , "lineCD"])
-              }
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={3000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawLine(C, D)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() =>
-                setDisplayedShapes([...displayedShapes, "circleC_AB"])
-              }
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={4000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawCircle(C, AB)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() =>
-                setDisplayedShapes([...displayedShapes, "circleD_AB"])
-              }
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={5000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawCircle(D, AB)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() =>
-                setDisplayedShapes([...displayedShapes, "circleC_CD"])
-              }
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={6000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawCircle(C, CD)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() =>
-                setDisplayedShapes([...displayedShapes, "circleD_CD"])
-              }
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={7000}
-                cursorColor="#39ff14"
-                text="drawCircle(D, CD)"
-                typeSpeed={50}
-              />
-            </div>
-          </>
-        )}
-        {arraysEqual(displayedShapes, [
-          "lineAB",
-          "circleA_AB",
-          "circleB_AB",
-          "lineBC"
-        ]) && (
-          <>
-            <div
-              onClick={() => setDisplayedShapes([...displayedShapes, "lineAC"])}
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={0}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawLine(A, C)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() => setDisplayedShapes([...displayedShapes, "lineAD"])}
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={1000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawLine(A, D)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() => setDisplayedShapes([...displayedShapes, "lineBD"])}
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={2000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawLine(B, D)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() =>
-                setDisplayedShapes([...displayedShapes, , "lineCD"])
-              }
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={3000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawLine(C, D)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() =>
-                setDisplayedShapes([...displayedShapes, "circleC_AB"])
-              }
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={4000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawCircle(C, AB)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() =>
-                setDisplayedShapes([...displayedShapes, "circleD_AB"])
-              }
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={5000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawCircle(D, AB)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() =>
-                setDisplayedShapes([...displayedShapes, "circleC_CD"])
-              }
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={6000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text="drawCircle(C, CD)"
-                typeSpeed={50}
-              />
-            </div>
-            <div
-              onClick={() =>
-                setDisplayedShapes([...displayedShapes, "circleD_CD"])
-              }
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={7000}
-                cursorColor="#39ff14"
-                text="drawCircle(D, CD)"
-                typeSpeed={50}
-              />
-            </div>
-          </>
-        )}
-        {arraysEqual(displayedShapes, [
-          "lineAB",
-          "circleA_AB",
-          "circleB_AB",
-          "lineAC",
-          "lineBC"
-        ]) && (
-          <>
-            <TypeWriterEffect
-              textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-              startDelay={0}
-              cursorColor="#39ff14"
-              text="GOAL!!!"
-              typeSpeed={50}
-            />
-          </>
-        )}
+          ))}
+        </>
       </div>
     </div>
   );
