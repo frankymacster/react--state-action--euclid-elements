@@ -1,3 +1,5 @@
+import { distance } from "./utils";
+
 const lineAB__circleA_AB__circleB_AB = {
   actions: [
     { text: "drawLine(A, C)", addedState: "lineAC" },
@@ -39,30 +41,73 @@ const lineAB__circleA_AB__circleB_AB__lineAC__lineBC = {
   actions: [{ text: "GOAL!!!" }]
 };
 
+const dotAPosition = {
+  x: window.innerWidth / 2 - 100,
+  y: window.innerHeight / 2
+};
+const dotBPosition = {
+  x: window.innerWidth / 2 + 100,
+  y: window.innerHeight / 2
+};
+const dotCPosition = {
+  x:
+    dotAPosition.x +
+    distance(dotAPosition, dotBPosition) * Math.cos(-Math.PI / 3),
+  y:
+    dotAPosition.y +
+    distance(dotAPosition, dotBPosition) * Math.sin(-Math.PI / 3)
+};
+const dotDPosition = {
+  x:
+    dotAPosition.x +
+    distance(dotAPosition, dotBPosition) * Math.cos(Math.PI / 3),
+  y:
+    dotAPosition.y +
+    distance(dotAPosition, dotBPosition) * Math.sin(Math.PI / 3)
+};
+
 export default {
-  initialState: "lineAB",
+  initialState: "dotA-dotB-lineAB",
   states: {
-    lineAB: {
+    "dotA-dotB-lineAB": {
       actions: [
         { text: "drawCircle(A, AB)", addedState: "circleA_AB" },
         { text: "drawCircle(B, AB)", addedState: "circleB_AB" }
       ]
     },
-    "lineAB-circleA_AB": {
-      actions: [{ text: "drawCircle(B, AB)", addedState: "circleB_AB" }]
+    "dotA-dotB-lineAB-circleA_AB": {
+      actions: [
+        { text: "drawCircle(B, AB)", addedState: "circleB_AB-dotC-dotD" }
+      ]
     },
-    "lineAB-circleB_AB": {
-      actions: [{ text: "drawCircle(A, AB)", addedState: "circleA_AB" }]
+    "dotA-dotB-lineAB-circleB_AB": {
+      actions: [
+        { text: "drawCircle(A, AB)", addedState: "circleA_AB-dotC-dotD" }
+      ]
     },
-    "lineAB-circleA_AB-circleB_AB": lineAB__circleA_AB__circleB_AB,
-    "lineAB-circleB_AB-circleA_AB": lineAB__circleA_AB__circleB_AB,
-    "lineAB-circleA_AB-circleB_AB-lineAC": lineAB__circleA_AB__circleB_AB__lineAC,
-    "lineAB-circleB_AB-circleA_AB-lineAC": lineAB__circleA_AB__circleB_AB__lineAC,
-    "lineAB-circleA_AB-circleB_AB-lineBC": lineAB__circleA_AB__circleB_AB__lineBC,
-    "lineAB-circleB_AB-circleA_AB-lineBC": lineAB__circleA_AB__circleB_AB__lineBC,
-    "lineAB-circleA_AB-circleB_AB-lineAC-lineBC": lineAB__circleA_AB__circleB_AB__lineAC__lineBC,
-    "lineAB-circleA_AB-circleB_AB-lineBC-lineAC": lineAB__circleA_AB__circleB_AB__lineAC__lineBC,
-    "lineAB-circleB_AB-circleA_AB-lineAC-lineBC": lineAB__circleA_AB__circleB_AB__lineAC__lineBC,
-    "lineAB-circleB_AB-circleA_AB-lineBC-lineAC": lineAB__circleA_AB__circleB_AB__lineAC__lineBC
+    "dotA-dotB-lineAB-circleA_AB-circleB_AB-dotC-dotD": lineAB__circleA_AB__circleB_AB,
+    "dotA-dotB-lineAB-circleB_AB-circleA_AB-dotC-dotD": lineAB__circleA_AB__circleB_AB,
+    "dotA-dotB-lineAB-circleA_AB-circleB_AB-dotC-dotD-lineAC": lineAB__circleA_AB__circleB_AB__lineAC,
+    "dotA-dotB-lineAB-circleB_AB-circleA_AB-dotC-dotD-lineAC": lineAB__circleA_AB__circleB_AB__lineAC,
+    "dotA-dotB-lineAB-circleA_AB-circleB_AB-dotC-dotD-lineBC": lineAB__circleA_AB__circleB_AB__lineBC,
+    "dotA-dotB-lineAB-circleB_AB-circleA_AB-dotC-dotD-lineBC": lineAB__circleA_AB__circleB_AB__lineBC,
+    "dotA-dotB-lineAB-circleA_AB-circleB_AB-dotC-dotD-lineAC-lineBC": lineAB__circleA_AB__circleB_AB__lineAC__lineBC,
+    "dotA-dotB-lineAB-circleA_AB-circleB_AB-dotC-dotD-lineBC-lineAC": lineAB__circleA_AB__circleB_AB__lineAC__lineBC,
+    "dotA-dotB-lineAB-circleB_AB-circleA_AB-dotC-dotD-lineAC-lineBC": lineAB__circleA_AB__circleB_AB__lineAC__lineBC,
+    "dotA-dotB-lineAB-circleB_AB-circleA_AB-dotC-dotD-lineBC-lineAC": lineAB__circleA_AB__circleB_AB__lineAC__lineBC
+  },
+  drawings: {
+    dotA: {
+      position: dotAPosition
+    },
+    dotB: {
+      position: dotBPosition
+    },
+    dotC: {
+      position: dotCPosition
+    },
+    dotD: {
+      position: dotDPosition
+    }
   }
 };

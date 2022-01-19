@@ -2,35 +2,11 @@ import "./styles.css";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import TypeWriterEffect from "react-typewriter-effect";
-import { arraysEqual, distance } from "./utils";
+import { distance } from "./utils";
 import config from "./EuclidElementsBook1Proposition1";
 
 const dotRadius = 4;
 const strokeWidth = 4;
-const dotAPosition = {
-  x: window.innerWidth / 2 - 100,
-  y: window.innerHeight / 2
-};
-const dotBPosition = {
-  x: window.innerWidth / 2 + 100,
-  y: window.innerHeight / 2
-};
-const dotCPosition = {
-  x:
-    dotAPosition.x +
-    distance(dotAPosition, dotBPosition) * Math.cos(-Math.PI / 3),
-  y:
-    dotAPosition.y +
-    distance(dotAPosition, dotBPosition) * Math.sin(-Math.PI / 3)
-};
-const dotDPosition = {
-  x:
-    dotAPosition.x +
-    distance(dotAPosition, dotBPosition) * Math.cos(Math.PI / 3),
-  y:
-    dotAPosition.y +
-    distance(dotAPosition, dotBPosition) * Math.sin(Math.PI / 3)
-};
 
 const draw = {
   hidden: { pathLength: 0, opacity: 0 },
@@ -48,13 +24,8 @@ const draw = {
 };
 
 export default function App() {
-  const [displayedShapes, setDisplayedShapes] = useState(config.initialState);
-
-  console.log(displayedShapes);
-  console.log(
-    "config?.states[displayedShapes]",
-    config?.states[displayedShapes]
-  );
+  const [state, setState] = useState(config.initialState);
+  const displayedShapes = state.split("-");
 
   return (
     <div>
@@ -65,192 +36,71 @@ export default function App() {
         initial="hidden"
         animate="visible"
       >
-        <motion.circle
-          cx={dotAPosition.x}
-          cy={dotAPosition.y}
-          r={dotRadius}
-          fill="white"
-          stroke="white"
-          strokeWidth="1"
-        />
-        <motion.text
-          x={dotAPosition.x + 20}
-          y={dotAPosition.y + 20}
-          fill="white"
-          stroke="white"
-          fontSize={25}
-        >
-          A
-        </motion.text>
-        <motion.circle
-          cx={dotBPosition.x}
-          cy={dotBPosition.y}
-          r={dotRadius}
-          fill="white"
-          stroke="white"
-        />
-        <motion.text
-          x={dotBPosition.x + 20}
-          y={dotBPosition.y + 20}
-          fill="white"
-          stroke="white"
-          fontSize={25}
-        >
-          B
-        </motion.text>
-        <motion.line
-          x1={dotAPosition.x}
-          y1={dotAPosition.y}
-          x2={dotBPosition.x}
-          y2={dotBPosition.y}
-          stroke="white"
-          style={{ strokeWidth }}
-        />
-        {displayedShapes.includes("circleA_AB") && (
-          <motion.circle
-            cx={dotAPosition.x}
-            cy={dotAPosition.y}
-            r={distance(dotAPosition, dotBPosition)}
-            stroke="white"
-            variants={draw}
-            style={{ strokeWidth }}
-          />
-        )}
-        {displayedShapes.includes("circleB_AB") && (
-          <motion.circle
-            cx={dotBPosition.x}
-            cy={dotBPosition.y}
-            r={distance(dotAPosition, dotBPosition)}
-            stroke="white"
-            variants={draw}
-            style={{ strokeWidth }}
-          />
-        )}
-        {displayedShapes.includes("circleA_AB") &&
-          displayedShapes.includes("circleB_AB") && (
-            <>
-              <motion.circle
-                cx={dotCPosition.x}
-                cy={dotCPosition.y}
-                r={dotRadius}
-                fill="white"
-                stroke="white"
-                variants={draw}
-              />
-              <motion.text
-                x={dotCPosition.x + 20}
-                y={dotCPosition.y + 20}
-                fill="white"
-                stroke="white"
-                fontSize={25}
-                variants={draw}
-              >
-                C
-              </motion.text>
-              <motion.circle
-                cx={dotDPosition.x}
-                cy={dotDPosition.y}
-                r={dotRadius}
-                fill="white"
-                stroke="white"
-                variants={draw}
-              />
-              <motion.text
-                x={dotDPosition.x + 20}
-                y={dotDPosition.y + 20}
-                fill="white"
-                stroke="white"
-                fontSize={25}
-                variants={draw}
-              >
-                D
-              </motion.text>
-            </>
-          )}
-        {displayedShapes.includes("lineAC") && (
-          <motion.line
-            x1={dotAPosition.x}
-            y1={dotAPosition.y}
-            x2={dotCPosition.x}
-            y2={dotCPosition.y}
-            stroke="white"
-            style={{ strokeWidth }}
-            variants={draw}
-          />
-        )}
-        {displayedShapes.includes("lineBC") && (
-          <motion.line
-            x1={dotBPosition.x}
-            y1={dotBPosition.y}
-            x2={dotCPosition.x}
-            y2={dotCPosition.y}
-            stroke="white"
-            style={{ strokeWidth }}
-            variants={draw}
-          />
-        )}
-        {displayedShapes.includes("lineAD") && (
-          <motion.line
-            x1={dotAPosition.x}
-            y1={dotAPosition.y}
-            x2={dotDPosition.x}
-            y2={dotDPosition.y}
-            stroke="white"
-            style={{ strokeWidth }}
-            variants={draw}
-          />
-        )}
-        {displayedShapes.includes("lineBD") && (
-          <motion.line
-            x1={dotBPosition.x}
-            y1={dotBPosition.y}
-            x2={dotDPosition.x}
-            y2={dotDPosition.y}
-            stroke="white"
-            style={{ strokeWidth }}
-            variants={draw}
-          />
-        )}
-        {displayedShapes.includes("lineCD") && (
-          <>
-            <motion.line
-              x1={dotCPosition.x}
-              y1={dotCPosition.y}
-              x2={dotDPosition.x}
-              y2={dotDPosition.y}
-              stroke="white"
-              style={{ strokeWidth }}
-              variants={draw}
-            />
-            <motion.circle
-              cx={dotDPosition.x}
-              cy={(dotDPosition.y + dotCPosition.y) / 2}
-              r={dotRadius}
-              fill="white"
-              stroke="white"
-              variants={draw}
-            />
-            <motion.text
-              x={dotDPosition.x + 20}
-              y={(dotDPosition.y + dotCPosition.y) / 2 + 20}
-              fill="white"
-              stroke="white"
-              fontSize={25}
-              variants={draw}
-            >
-              E
-            </motion.text>
-          </>
-        )}
+        {displayedShapes.map((displayedShape) => {
+          if (displayedShape.includes("dot")) {
+            return (
+              <>
+                <motion.circle
+                  cx={config.drawings[displayedShape].position.x}
+                  cy={config.drawings[displayedShape].position.y}
+                  r={dotRadius}
+                  fill="white"
+                  stroke="white"
+                  strokeWidth="1"
+                  variants={draw}
+                />
+                <motion.text
+                  x={config.drawings[displayedShape].position.x + 20}
+                  y={config.drawings[displayedShape].position.y + 20}
+                  fill="white"
+                  stroke="white"
+                  fontSize={25}
+                  variants={draw}
+                >
+                  {displayedShape[3]}
+                </motion.text>
+              </>
+            );
+          } else if (displayedShape.includes("line")) {
+            return (
+              <>
+                <motion.line
+                  x1={config.drawings["dot" + displayedShape[4]].position.x}
+                  y1={config.drawings["dot" + displayedShape[4]].position.y}
+                  x2={config.drawings["dot" + displayedShape[5]].position.x}
+                  y2={config.drawings["dot" + displayedShape[5]].position.y}
+                  stroke="white"
+                  style={{ strokeWidth }}
+                  variants={draw}
+                />
+              </>
+            );
+          } else if (displayedShape.includes("circle")) {
+            return (
+              <>
+                <motion.circle
+                  cx={config.drawings["dot" + displayedShape[6]].position.x}
+                  cy={config.drawings["dot" + displayedShape[6]].position.y}
+                  r={distance(
+                    config.drawings["dot" + displayedShape[8]].position,
+                    config.drawings["dot" + displayedShape[9]].position
+                  )}
+                  stroke="white"
+                  style={{ strokeWidth }}
+                  variants={draw}
+                />
+              </>
+            );
+          }
+        })}
       </motion.svg>
       <div class="action-list">
         <>
-          {config?.states[displayedShapes]?.actions.map((action, i) => (
+          {config?.states[state]?.actions.map((action, i) => (
             <div
               key={action.text}
               onClick={() =>
-                action.addedState &&
-                setDisplayedShapes(displayedShapes + "-" + action.addedState)
+                action.addedState && setState(state + "-" + action.addedState)
               }
             >
               <TypeWriterEffect
