@@ -3,7 +3,8 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import TypeWriterEffect from "react-typewriter-effect";
 import { distance } from "./utils";
-import config from "./EuclidElementsBook1Proposition1";
+import EuclidElementsBook1Proposition1 from "./EuclidElementsBook1Proposition1";
+import EuclidElementsBook1Proposition2 from "./EuclidElementsBook1Proposition2";
 
 const dotRadius = 4;
 const strokeWidth = 4;
@@ -24,6 +25,35 @@ const draw = {
 };
 
 export default function App() {
+  const [selectedConfig, setSelectedConfig] = useState(null);
+
+  const configs = {
+    EuclidElementsBook1Proposition1,
+    EuclidElementsBook1Proposition2
+  };
+
+  return (
+    <>
+      {selectedConfig && <Renderer config={selectedConfig} />}
+      <button
+        onClick={() =>
+          setSelectedConfig(configs.EuclidElementsBook1Proposition1)
+        }
+      >
+        EuclidElementsBook1Proposition1
+      </button>
+      <button
+        onClick={() =>
+          setSelectedConfig(configs.EuclidElementsBook1Proposition2)
+        }
+      >
+        EuclidElementsBook1Proposition2
+      </button>
+    </>
+  );
+}
+
+function Renderer({ config }) {
   const [state, setState] = useState(config.initialState);
   const displayedShapes = state.split("-");
 

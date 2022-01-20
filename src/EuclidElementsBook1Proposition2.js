@@ -33,12 +33,8 @@ const dotFPosition = {
     distance(dotAPosition, dotBPosition) * Math.sin(-Math.PI / 3)
 };
 const dotGPosition = {
-  x:
-    dotAPosition.x +
-    distance(dotAPosition, dotBPosition) * Math.cos(-Math.PI / 3),
-  y:
-    dotAPosition.y +
-    distance(dotAPosition, dotBPosition) * Math.sin(-Math.PI / 3)
+  x: dotDPosition.x + distance(dotAPosition, dotBPosition),
+  y: dotDPosition.y
 };
 
 export default {
