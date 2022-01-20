@@ -5,6 +5,7 @@ import TypeWriterEffect from "react-typewriter-effect";
 import { distance } from "./utils";
 import EuclidElementsBook1Proposition1 from "./EuclidElementsBook1Proposition1";
 import EuclidElementsBook1Proposition2 from "./EuclidElementsBook1Proposition2";
+import EuclidElementsBook1Proposition3 from "./EuclidElementsBook1Proposition3";
 
 const dotRadius = 4;
 const strokeWidth = 4;
@@ -29,12 +30,12 @@ export default function App() {
 
   const configs = {
     EuclidElementsBook1Proposition1,
-    EuclidElementsBook1Proposition2
+    EuclidElementsBook1Proposition2,
+    EuclidElementsBook1Proposition3
   };
 
   return (
     <>
-      {selectedConfig && <Renderer config={selectedConfig} />}
       <button
         onClick={() =>
           setSelectedConfig(configs.EuclidElementsBook1Proposition1)
@@ -49,6 +50,14 @@ export default function App() {
       >
         EuclidElementsBook1Proposition2
       </button>
+      <button
+        onClick={() =>
+          setSelectedConfig(configs.EuclidElementsBook1Proposition3)
+        }
+      >
+        EuclidElementsBook1Proposition3
+      </button>
+      {selectedConfig && <Renderer config={selectedConfig} />}
     </>
   );
 }
