@@ -1,4 +1,9 @@
-import { distance } from "./utils";
+import {
+  distance,
+  angleBetweenVectors,
+  vectorDifference,
+  lineCircleIntersection
+} from "./utils";
 
 const dotAPosition = {
   x: window.innerWidth / 2 - 100,
@@ -9,33 +14,36 @@ const dotBPosition = {
   y: window.innerHeight / 2
 };
 const dotCPosition = {
-  x: dotAPosition.x + 200 * Math.cos(-Math.PI / 3),
-  y: dotAPosition.y + 200 * Math.sin(-Math.PI / 3)
+  x: window.innerWidth / 2 + 100,
+  y: window.innerHeight / 2 - 100
 };
+const angle = angleBetweenVectors(
+  vectorDifference(dotAPosition, dotCPosition),
+  {
+    x: 100,
+    y: 0
+  }
+);
 const dotDPosition = {
-  x: dotAPosition.x + 200 * Math.cos((-2 * Math.PI) / 3),
-  y: dotAPosition.y + 200 * Math.sin((-2 * Math.PI) / 3)
-};
-const dotEPosition = {
   x:
     dotAPosition.x +
-    distance(dotAPosition, dotBPosition) * Math.cos((-2 * Math.PI) / 3),
+    distance(dotAPosition, dotCPosition) * Math.cos(angle + (-2 * Math.PI) / 3),
   y:
     dotAPosition.y +
-    distance(dotAPosition, dotBPosition) * Math.sin((-2 * Math.PI) / 3)
+    distance(dotAPosition, dotCPosition) * Math.sin(angle + (-2 * Math.PI) / 3)
 };
-const dotFPosition = {
-  x:
-    dotAPosition.x +
-    distance(dotAPosition, dotBPosition) * Math.cos(-Math.PI / 3),
-  y:
-    dotAPosition.y +
-    distance(dotAPosition, dotBPosition) * Math.sin(-Math.PI / 3)
-};
-const dotGPosition = {
-  x: dotDPosition.x + distance(dotAPosition, dotBPosition),
-  y: dotDPosition.y
-};
+const [dotEPosition] = lineCircleIntersection(dotDPosition, {
+  center: dotAPosition,
+  radius: distance(dotAPosition, dotBPosition)
+});
+const [dotFPosition] = lineCircleIntersection(dotCPosition, {
+  center: dotAPosition,
+  radius: distance(dotAPosition, dotBPosition)
+});
+const [dotGPosition] = lineCircleIntersection(dotCPosition, {
+  center: dotDPosition,
+  radius: distance(dotDPosition, dotEPosition)
+});
 
 export default {
   initialState: "dotA-dotB-lineAB-dotC",
@@ -59,6 +67,9 @@ export default {
     },
     "dotA-dotB-lineAB-dotC-lineAC-triangleACD-dotD-circleA_AB-dotE-dotF": {
       actions: [{ text: "drawCircle(D, DE)", addedState: "circleD_DE-dotG" }]
+    },
+    "dotA-dotB-lineAB-dotC-lineAC-triangleACD-dotD-circleA_AB-dotE-dotF-circleD_DE-dotG": {
+      actions: [{ text: "GOAL!!!" }]
     }
   },
   drawings: {
