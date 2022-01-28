@@ -68,7 +68,6 @@ function Renderer({ config }) {
   const displayedShapes = state.split("-");
 
   const onKeyDown = (event) => {
-    console.log(event.key);
     const actions = config?.states[state]?.actions;
     switch (event.key) {
       case "ArrowUp":
@@ -80,6 +79,8 @@ function Renderer({ config }) {
       case "Enter":
         actions[selectedIndex].addedState &&
           setState(state + "-" + actions[selectedIndex].addedState);
+        break;
+      default:
         break;
     }
   };
