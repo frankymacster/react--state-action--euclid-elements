@@ -64,10 +64,28 @@ export default function App() {
 
 function Renderer({ config }) {
   const [state, setState] = useState(config.initialState);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const displayedShapes = state.split("-");
 
+  const onKeyDown = (event) => {
+    console.log(event.key);
+    const actions = config?.states[state]?.actions;
+    switch (event.key) {
+      case "ArrowUp":
+        setSelectedIndex((selectedIndex - 1) % actions.length);
+        break;
+      case "ArrowDown":
+        setSelectedIndex((selectedIndex + 1) % actions.length);
+        break;
+      case "Enter":
+        actions[selectedIndex].addedState &&
+          setState(state + "-" + actions[selectedIndex].addedState);
+        break;
+    }
+  };
+
   return (
-    <div>
+    <div {...{ onKeyDown }} tabIndex="0">
       <motion.svg
         width={window.innerWidth}
         height={window.innerHeight / 2}
@@ -165,23 +183,29 @@ function Renderer({ config }) {
           }
         })}
       </motion.svg>
-      <div class="action-list">
+      <div class="action-list" style={{ padding: "20px" }}>
         <>
           {config?.states[state]?.actions.map((action, i) => (
-            <div
-              key={action.text}
-              onClick={() =>
-                action.addedState && setState(state + "-" + action.addedState)
-              }
-            >
-              <TypeWriterEffect
-                textStyle={{ fontFamily: "Courier", fontSize: 16 }}
-                startDelay={i * 1000}
-                cursorColor="#39ff14"
-                hideCursorAfterText
-                text={action.text}
-                typeSpeed={50}
-              />
+            <div>
+              <div style={{ display: "inline-block", paddingRight: "10px" }}>
+                {selectedIndex === i ? ">" : " "}
+              </div>
+              <div
+                style={{ display: "inline-block" }}
+                key={action.text}
+                onClick={() =>
+                  action.addedState && setState(state + "-" + action.addedState)
+                }
+              >
+                <TypeWriterEffect
+                  textStyle={{ fontFamily: "Courier", fontSize: 16 }}
+                  startDelay={i * 1000}
+                  cursorColor="#39ff14"
+                  hideCursorAfterText
+                  text={action.text}
+                  typeSpeed={50}
+                />
+              </div>
             </div>
           ))}
         </>
